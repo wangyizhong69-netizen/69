@@ -4,19 +4,190 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>校園外送｜菜單</title>
-    <link rel="stylesheet" href="../css/base.css" />
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+      body { font-family: 'Inter', sans-serif; }
+    </style>
   </head>
-  <body>
-    <header class="site-header">
-      <a class="brand" href="../index.html">校園外送</a>
-      <nav aria-label="主要導覽"><a href="restaurants.html">餐廳</a><a href="cart.html">購物車 <span data-cart-count>0</span></a><a href="../index.html">首頁</a></nav>
+  <body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between">
+    
+    <header class="site-header bg-white shadow-sm border-b border-slate-200 sticky top-0 z-30">
+      <div class="max-w-5xl mx-auto px-4 py-4 flex justify-between items-center">
+        <a class="brand font-bold text-xl text-emerald-600 hover:text-emerald-700 transition" href="../index.html">校園外送</a>
+        <nav aria-label="主要導覽" class="flex gap-6 items-center text-sm font-medium">
+          <a href="restaurants.html" class="text-slate-600 hover:text-emerald-600 transition">餐廳</a>
+          <a href="cart.html" class="text-slate-600 hover:text-emerald-600 transition relative flex items-center gap-1">
+            購物車 
+            <span data-cart-count class="bg-emerald-500 text-white text-xs px-2 py-0.5 rounded-full font-bold">0</span>
+          </a>
+          <a href="../index.html" class="text-slate-600 hover:text-emerald-600 transition">首頁</a>
+        </nav>
+      </div>
     </header>
-    <main class="container">
-      <section class="page-heading"><p class="eyebrow">本日菜單</p><h1>晴天咖啡</h1><p class="muted">挑選餐點後，按下按鈕加入購物車。</p></section>
-      <p class="status-message" data-status-message aria-live="polite"></p>
-      <!-- 成員 3：將此區塊改為至少三張餐點卡片，每張需有名稱、價格和加入購物車按鈕。 -->
-      <section class="placeholder"><h2>餐點列表</h2><p>待完成：使用 <code>data-add-to-cart</code> 讓按鈕顯示加入提示。</p></section>
+
+    <main class="container max-w-5xl mx-auto px-4 py-8 flex-grow w-full">
+      <section class="page-heading mb-8">
+        <p class="eyebrow text-xs font-semibold uppercase tracking-wider text-emerald-600 mb-1">本日菜單</p>
+        <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">晴天咖啡</h1>
+        <p class="muted text-slate-500 mt-1">挑選餐點後，按下按鈕加入購物車。</p>
+      </section>
+
+      <!-- Dynamic notification status message box -->
+      <div id="status-container" class="mb-6">
+        <p class="status-message transition-all duration-300 transform translate-y-0 opacity-0 hidden p-4 rounded-xl font-medium shadow-sm flex items-center justify-between" data-status-message aria-live="polite">
+          <span id="status-text"></span>
+          <button onclick="dismissStatus()" class="text-xs opacity-70 hover:opacity-100 font-bold px-2 py-1">關閉</button>
+        </p>
+      </div>
+
+      <section class="meal-list-section">
+        <div class="flex items-center justify-between mb-6">
+          <h2 class="text-xl font-bold text-slate-800">餐點列表</h2>
+          <span class="text-xs text-slate-400 bg-slate-200 px-2.5 py-1 rounded-full font-medium">精選推薦</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          
+          <!-- Meal Card 1 -->
+          <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 overflow-hidden flex flex-col justify-between hover:shadow-md transition-shadow group">
+            <div>
+              <div class="h-48 overflow-hidden bg-slate-100 relative">
+                <img src="https://placehold.co/600x400/e2e8f0/475569?text=Sunny+Latte" alt="經典拿鐵咖啡" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.src='https://placehold.co/600x400/e2e8f0/475569?text=Meal'">
+                <span class="absolute top-3 right-3 bg-white/90 backdrop-blur-sm text-xs font-bold text-emerald-700 px-2.5 py-1 rounded-full shadow-xs">人氣首選</span>
+              </div>
+              <div class="p-5">
+                <h3 class="font-bold text-lg text-slate-900 mb-1">經典拿鐵咖啡</h3>
+                <p class="text-sm text-slate-500 line-clamp-2 leading-relaxed">香濃滑順的義式濃縮咖啡結合完美打發的溫熱鮮奶，午後提神最佳良伴。</p>
+              </div>
+            </div>
+            <div class="p-5 pt-0 flex items-center justify-between mt-4">
+              <span class="text-xl font-extrabold text-emerald-600">NT$ 90</span>
+              <button data-add-to-cart data-item-name="經典拿鐵咖啡" data-item-price="90" class="bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white font-medium px-4 py-2 rounded-xl text-sm transition shadow-sm flex items-center gap-1.5 cursor-pointer">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                </svg>
+                加入購物車
+              </button>
+            </div>
+          </div>
+
+          <!-- Meal Card 2 -->
+          <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 overflow-hidden flex flex-col justify-between hover:shadow-md transition-shadow group">
+            <div>
+              <div class="h-48 overflow-hidden bg-slate-100 relative">
+                <img src="https://placehold.co/600x400/e2e8f0/475569?text=Avocado+Toast" alt="手作酪梨起司三明治" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.src='https://placehold.co/600x400/e2e8f0/475569?text=Meal'">
+                <span class="absolute top-3 right-3 bg-white/90 backdrop-blur-sm text-xs font-bold text-amber-700 px-2.5 py-1 rounded-full shadow-xs">健康輕食</span>
+              </div>
+              <div class="p-5">
+                <h3 class="font-bold text-lg text-slate-900 mb-1">手作酪梨起司三明治</h3>
+                <p class="text-sm text-slate-500 line-clamp-2 leading-relaxed">嚴選新鮮進口酪梨切片，搭配融化香濃起司與全麥厚片吐司，營養滿分。</p>
+              </div>
+            </div>
+            <div class="p-5 pt-0 flex items-center justify-between mt-4">
+              <span class="text-xl font-extrabold text-emerald-600">NT$ 120</span>
+              <button data-add-to-cart data-item-name="手作酪梨起司三明治" data-item-price="120" class="bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white font-medium px-4 py-2 rounded-xl text-sm transition shadow-sm flex items-center gap-1.5 cursor-pointer">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                </svg>
+                加入購物車
+              </button>
+            </div>
+          </div>
+
+          <!-- Meal Card 3 -->
+          <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 overflow-hidden flex flex-col justify-between hover:shadow-md transition-shadow group">
+            <div>
+              <div class="h-48 overflow-hidden bg-slate-100 relative">
+                <img src="https://placehold.co/600x400/e2e8f0/475569?text=Matcha+Cake" alt="宇治抹茶磅蛋糕" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.src='https://placehold.co/600x400/e2e8f0/475569?text=Meal'">
+                <span class="absolute top-3 right-3 bg-white/90 backdrop-blur-sm text-xs font-bold text-emerald-700 px-2.5 py-1 rounded-full shadow-xs">店長推薦</span>
+              </div>
+              <div class="p-5">
+                <h3 class="font-bold text-lg text-slate-900 mb-1">宇治抹茶磅蛋糕</h3>
+                <p class="text-sm text-slate-500 line-clamp-2 leading-relaxed">使用日本進口宇治抹茶粉製作，茶香濃郁帶點微苦甘甜，口感紮實細緻。</p>
+              </div>
+            </div>
+            <div class="p-5 pt-0 flex items-center justify-between mt-4">
+              <span class="text-xl font-extrabold text-emerald-600">NT$ 85</span>
+              <button data-add-to-cart data-item-name="宇治抹茶磅蛋糕" data-item-price="85" class="bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white font-medium px-4 py-2 rounded-xl text-sm transition shadow-sm flex items-center gap-1.5 cursor-pointer">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                </svg>
+                加入購物車
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </section>
     </main>
-    <footer>校園外送小組協作練習</footer><script src="../js/app.js"></script>
+
+    <footer class="bg-white border-t border-slate-200 mt-12 py-6 text-center text-sm text-slate-400">
+      校園外送小組協作練習
+    </footer>
+
+    <script>
+      let cartCount = 0;
+      let notificationTimeout = null;
+
+      function dismissStatus() {
+        const msgEl = document.querySelector('[data-status-message]');
+        msgEl.classList.add('opacity-0', 'hidden');
+        if (notificationTimeout) clearTimeout(notificationTimeout);
+      }
+
+      function showNotification(message) {
+        const msgEl = document.querySelector('[data-status-message]');
+        const textEl = document.getElementById('status-text');
+        
+        textEl.textContent = message;
+        msgEl.classList.remove('hidden', 'opacity-0');
+        msgEl.classList.add('bg-emerald-50', 'text-emerald-800', 'border', 'border-emerald-200', 'opacity-100');
+
+        if (notificationTimeout) clearTimeout(notificationTimeout);
+        notificationTimeout = setTimeout(() => {
+          dismissStatus();
+        }, 3500);
+      }
+
+      document.addEventListener('DOMContentLoaded', () => {
+        const buttons = document.querySelectorAll('[data-add-to-cart]');
+        const cartCountEl = document.querySelector('[data-cart-count]');
+
+        buttons.forEach(button => {
+          button.addEventListener('click', (e) => {
+            const itemName = button.getAttribute('data-item-name') || '餐點';
+            const itemPrice = button.getAttribute('data-item-price') || '0';
+            
+            // Increment cart count
+            cartCount++;
+            if (cartCountEl) {
+              cartCountEl.textContent = cartCount;
+            }
+
+            // Display feedback message
+            showNotification(`已成功將「${itemName}」加入購物車！`);
+
+            // Optional button animation feedback
+            const originalText = button.innerHTML;
+            button.innerHTML = `
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              >
+              已加入
+            `;
+            button.classList.remove('bg-emerald-600', 'hover:bg-emerald-700');
+            button.classList.add('bg-emerald-800');
+
+            setTimeout(() => {
+              button.innerHTML = originalText;
+              button.classList.remove('bg-emerald-800');
+              button.classList.add('bg-emerald-600', 'hover:bg-emerald-700');
+            }, 1200);
+          });
+        });
+      });
+    </script>
   </body>
 </html>
